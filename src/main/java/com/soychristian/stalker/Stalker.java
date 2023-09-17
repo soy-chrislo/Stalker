@@ -1,5 +1,7 @@
 package com.soychristian.stalker;
 
+import com.soychristian.stalker.exceptions.BadFormatConfigurationFileException;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -50,7 +52,20 @@ public final class Stalker extends JavaPlugin {
         ConsoleCommandSender commandSender = this.getServer().getConsoleSender();
 
         FileConfiguration config = this.getConfig();
-        if (!(config.getBoolean("enable-plugin"))){
+        Object valueEnableObject = config.get("enable-plugin");
+        boolean valueEnable = false;
+
+        try {
+            if (valueEnableObject instanceof Boolean){
+                valueEnable = (Boolean) valueEnableObject;
+            } else {
+                throw new BadFormatConfigurationFileException("config.yml", "enable-plugin");
+            }
+        } catch (BadFormatConfigurationFileException e){
+            commandSender.sendMessage(String.format("%sEl valor de la propiedad %s no es el indicado en el archivo de configuración %s. Se espera un booleano.", PLUGIN_NAME, e.getConfigurationPath(), e.getConfigurationFilename()));
+        }
+
+        if (!valueEnable){
             commandSender.sendMessage(PLUGIN_NAME + "El plugin ha sido desactivado debido a la opción enable-plugin de config.yml");
             getServer().getPluginManager().disablePlugin(this);
         }
