@@ -21,11 +21,18 @@ public final class Stalker extends JavaPlugin {
         - git commit -m "Mensaje" (Crear copia de los archivos)
         - git push (Agregar a repositorio remoto)
         - git reset --hard (Regresar a último commit)
+    ---
 
+    (Recordar como terminar los procesos infinitos)
+    5. Subida a repositorio remoto (GitHub).
+        5.1. Preparación .README y .gitignore
+    6. Tratamiento de errores personalizado.
 
-    4. Subida a repositorio remoto (GitHub).
-        4.1. Preparación .README y .gitignore
-    5. Tratamiento de errores personalizado.
+    ---
+    6. Gestor de comandos
+
+    ---
+    7. Gestor de eventos.
 
     * REQUERIMIENTOS:
     * - Se debe interactuar con el 100% del plugin DENTRO del juego. (interfaces)
@@ -34,6 +41,7 @@ public final class Stalker extends JavaPlugin {
     * - Se deben poder realizar QUERYS (tipo base de datos) para la visualización de los datos.
     * - (Por el momento) toda la información se almacenará de forma local.
     *   - Cuando el plugin este finalizado, se realizará integración con base de datos relacional y no relacional.
+    * - Soporte a multiples idiomas con una plantilla YAML pre-definida.
     * */
 
     @Override
