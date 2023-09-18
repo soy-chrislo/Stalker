@@ -1,7 +1,7 @@
 package com.soychristian.stalker;
 
+import com.soychristian.stalker.commands.CommandManager;
 import com.soychristian.stalker.exceptions.BadFormatConfigurationFileException;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -9,7 +9,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Stalker extends JavaPlugin {
 
-    private static final String PLUGIN_NAME = ChatColor.translateAlternateColorCodes('&', "&6&l[&f&lStalker&6&l] &f&l> &r");
+    private static final String PLUGIN_NAME = "Stalker";
+    private static final String PLUGIN_NAME_COLOR = ChatColor.translateAlternateColorCodes('&', "&6&l[&f&l" + PLUGIN_NAME + "&6&l] &f&l> &r");
     /*
     1. Buscar forma de agregar colores a terminal e incluir prefijo para el nombre del plugin.
         - getLogger().info() VS getServer().getConsoleSender().sendMessage()
@@ -62,13 +63,14 @@ public final class Stalker extends JavaPlugin {
                 throw new BadFormatConfigurationFileException("config.yml", "enable-plugin");
             }
         } catch (BadFormatConfigurationFileException e){
-            commandSender.sendMessage(String.format("%sEl valor de la propiedad %s no es el indicado en el archivo de configuración %s. Se espera un booleano.", PLUGIN_NAME, e.getConfigurationPath(), e.getConfigurationFilename()));
+            commandSender.sendMessage(String.format("%sEl valor de la propiedad %s no es el indicado en el archivo de configuración %s. Se espera un booleano.", PLUGIN_NAME_COLOR, e.getConfigurationPath(), e.getConfigurationFilename()));
         }
 
         if (!valueEnable){
-            commandSender.sendMessage(PLUGIN_NAME + "El plugin ha sido desactivado debido a la opción enable-plugin de config.yml");
+            commandSender.sendMessage(PLUGIN_NAME_COLOR + "El plugin ha sido desactivado debido a la opción enable-plugin de config.yml");
             getServer().getPluginManager().disablePlugin(this);
         }
+        this.getCommand(PLUGIN_NAME.toLowerCase()).setExecutor(new CommandManager(this));
     }
 
     public void setupConfiguration(){
@@ -83,5 +85,12 @@ public final class Stalker extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+    }
+
+    public static String getPluginName(){
+        return PLUGIN_NAME;
+    }
+    public static String getPluginNameColor(){
+        return PLUGIN_NAME_COLOR;
     }
 }
